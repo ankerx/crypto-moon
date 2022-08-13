@@ -28,3 +28,25 @@ export const coinSchema = z.object({
   roi: z.null(),
   last_updated: z.string(),
 });
+
+export const itemSchema = z.object({
+  id: z.string(),
+  coin_id: z.number(),
+  name: z.string(),
+  symbol: z.string(),
+  market_cap_rank: z.number(),
+  thumb: z.string(),
+  small: z.string(),
+  large: z.string(),
+  slug: z.string(),
+  price_btc: z.number(),
+  score: z.number(),
+});
+
+export const coinsEntitySchema = z.object({
+  item: itemSchema,
+});
+export const trendingCoinSchema = z.object({
+  coins: z.array(coinsEntitySchema).optional().nullable(),
+  exchanges: z.array(z.null()).optional().nullable(),
+});
