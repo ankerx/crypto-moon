@@ -30,7 +30,7 @@ export const Coin = ({ name, id }: IProps) => {
 
   return (
     <div>
-      <p className="text-zinc-700">{name}</p>
+      <p className="text-red-700">{name}</p>
       <button onClick={() => creates(id)}>Add</button>
       <button onClick={deleteFav}>Remove</button>
     </div>

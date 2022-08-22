@@ -1,5 +1,18 @@
 import z from "zod";
 
+export const favoriteSchema = z.object({
+  id: z.string(),
+  userId: z.string(),
+  name: z.string(),
+});
+export const favoriteArraySchema = z.array(
+  z.object({
+    id: z.string(),
+    userId: z.string(),
+    name: z.string(),
+  })
+);
+
 export const coinSchema = z.object({
   id: z.string(),
   symbol: z.string(),

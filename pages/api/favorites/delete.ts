@@ -4,7 +4,7 @@ import { prisma } from "prisma/db";
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const id = req.body.id;
 
-  await prisma.favorites.delete({ where: { name: id } });
+  await prisma.favoriteCoin.delete({ where: { name: id } });
 
   try {
     res.status(200).json("Successfully deleted");

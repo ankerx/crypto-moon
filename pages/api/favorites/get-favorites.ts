@@ -1,12 +1,20 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "prisma/db";
-import { favoritesArraySchema } from "schema";
+import { favoriteArraySchema } from "modules/coins/schema";
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-  const favorites = await prisma.favorites.findMany();
+  const { id } = req.body.data;
+
+  const user = await prisma.user.findUnique({ where: { id: id } });
+  if (!user) throw Error;
+
+  const favoriteCoins = await prisma.favoriteCoin.findMany({
+    where: { userId: id },
+  });
+
   try {
-    if (favoritesArraySchema.safeParse(favorites).success) {
-      res.status(200).json(favorites);
+    if (favoriteArraySchema.safeParse(favoriteCoins).success) {
+      res.status(200).json(favoriteCoins);
     } else {
       res.status(404).json({ message: "Wrong data" });
     }

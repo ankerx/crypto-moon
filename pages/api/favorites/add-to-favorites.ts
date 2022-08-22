@@ -1,27 +1,29 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "prisma/db";
-import type Prisma from "@prisma/client";
-import { favoritesSchema } from "schema";
-import { favoritesType } from "types";
-export type favType = Readonly<Prisma.Favorites>;
-export type Type = {
-  name: string;
-};
+import { favoriteSchema } from "modules/coins/schema";
+import { favType } from "modules/coins/types/types";
+import { nanoid } from "nanoid";
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const name = req.body.data;
-
-  const newFavorite: favoritesType = {
+  const userId = req.body;
+  const newFavoriteCoin: favType = {
     name: name,
+    id: nanoid(),
+    userId: "123",
   };
+  console.log(req.body.data);
 
-  const newFavorites = await prisma.favorites.create({ data: newFavorite });
+  const newFavorites = await prisma.favoriteCoin.create({
+    data: newFavoriteCoin,
+  });
 
   try {
-    if (favoritesSchema.safeParse(newFavorite).success) {
-      res.status(200).json(newFavorites);
-    } else {
-      res.status(404).json({ message: "Wrong data" });
-    }
+    res.status(200).json(req.body);
+    // if (favoriteSchema.safeParse(newFavoriteCoin).success) {
+    //   res.status(200).json(newFavorites);
+    // } else {
+    //   res.status(404).json({ message: "Wrong data" });
+    // }
   } catch (error) {
     res.status(404).json(error);
   }

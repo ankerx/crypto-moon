@@ -8,21 +8,10 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import { Header } from "modules/header/Header";
 import { ButtonWithLink } from "@/components/ButtonWithLink";
-import { useFavoriteCoins } from "context/favorite-coins/useFavoriteCoins";
+import { getSession } from "next-auth/react";
+import { TrendingCoins } from "modules/coins/components/TrendingCoins";
 
 const Home: NextPage = () => {
-  const { state } = useFavoriteCoins();
-  const { isLoading, error, data } = useTrendingCoinsData();
-  console.log(state.favorites);
-
-  if (isLoading) return <p>'Loading...'</p>;
-
-  if (error) return <p>'An error has occurred:{error.message}'</p>;
-
-  const trendingCoins = data?.coins?.map((item) => (
-    <Coin name={item.item.name} key={item.item.coin_id} id={item.item.id} />
-  ));
-
   return (
     <div>
       <Head>
@@ -32,11 +21,7 @@ const Home: NextPage = () => {
       </Head>
       <main>
         <Header />
-        <section className="flex flex-col items-center justify-center">
-          {trendingCoins}
-          <ButtonWithLink href="/coins" text="See all the coins" />
-        </section>
-        <p>favorites</p>
+        <TrendingCoins />
       </main>
     </div>
   );
